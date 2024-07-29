@@ -1,0 +1,44 @@
+##########################
+# LATENCY SLO CF TEMPLATE
+##########################
+
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  ServiceLevelObjective:
+    Type: AWS::ApplicationSignals::ServiceLevelObjective
+    Properties:
+      Description: test-poc
+      Sli: 
+        ComparisonOperator: LessThan 
+        MetricThreshold: 390
+        SliMetric: 
+          MetricDataQueries: 
+            - Id: m1
+              MetricStat: 
+                Period: 60
+                Metric: 
+                  Dimensions: 
+                    - Name: FunctionName
+                      Value: test-cdn
+                  MetricName: Duration
+                  Namespace: AWS/Lambda
+                Stat: Average
+      Name: sandbox-poc-slo-new
+      Goal: 
+        AttainmentGoal: 99
+        Interval: 
+            CalendarInterval: 
+              Duration: 1
+              DurationUnit: MONTH
+              StartTime: 1721964752
+        WarningThreshold: 30
+
+##############################
+# AVAILABILITY SLO CF TEMPLATE
+##############################
+
+##############################
+# THROUGHPUT SLO CF TEMPLATE
+##############################
+
+#aws cloudformation deploy --template-file template.yaml --stack-name test-slo --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
